@@ -38,14 +38,14 @@ var createSongRow = function(songNumber, songName, songLength) {
       ;
  
      var $row = $(template);
-     var onhover = function (event){
+     var onHover = function (event){
         var song = $(this).find('.song-item-number');
         var songNumber = song.attr('data-song-number');
         if (songNumber !== currentlyPlayingSong){
             song.html(playButtonTemplate);
         }
      };
-     var offhover = function (event){
+     var offHover = function (event){
          var song = $(this).find('.song-item-number');
          var songNumber = song.attr('data-song-number');
          if (songNumber !== currentlyPlayingSong){
@@ -63,8 +63,8 @@ var createSongRow = function(songNumber, songName, songLength) {
              $(this).html(playButtonTemplate);
              currentlyPlayingSong = null;
          } else if (currentlyPlayingSong !== songNumber) {
-//             var currentlyPlayingSongElement = $('.song-item-number[data-song-number="' + currentlyPlayingSong + '"]');
-//             currentlyPlayingSongElement.html(currentlyPlayingSongElement.attr('data-song-number'));
+             var currentlyPlayingSongElement = $('.song-item-number[data-song-number="' + currentlyPlayingSong + '"]');
+             currentlyPlayingSongElement.html(currentlyPlayingSongElement.attr('data-song-number'));
              $(this).html(pauseButtonTemplate);
              currentlyPlayingSong = songNumber;
          }
