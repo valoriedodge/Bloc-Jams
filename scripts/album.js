@@ -82,50 +82,31 @@ var setCurrentAlbum = function(album) {
 var trackIndex = function(album, song) {
     return album.songs.indexOf(song);
 };
-var nextSong = function() {
+var changeSong = function(number) {
     var album = currentAlbum;
     var song = currentSongFromAlbum;
-    var getLastSongNumber = function(index) {
-        return index == 0 ? album.songs.length : index;
-    };
+    var lastSongNumber = currentlyPlayingSongNumber;
+    var lastSongIndex = trackIndex(album, song);
     
-    var currentSongIndex = trackIndex(album, song);
-    currentSongIndex++;
-    
-    if (currentSongIndex >= album.songs.length) {
-        currentSongIndex = 0;
-    }
-    
-    setSong(currentSongIndex + 1);
-    updatePlayerBarSong();
-    
-    var lastSongNumber = getLastSongNumber(currentSongIndex);
-    var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
-    var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
-    
-    $nextSongNumberCell.html(pauseButtonTemplate);
-    $lastSongNumberCell.html(lastSongNumber);
-    
-};
+    if (number > 0 ){
+        var currentSongIndex = lastSongIndex + 1;
 
-var previousSong = function() {
-    var album = currentAlbum;
-    var song = currentSongFromAlbum;
-    var getLastSongNumber = function(index) {
-        return index === (album.songs.length-1) ? 1 : index + 2;
-    };
+        if (currentSongIndex >= album.songs.length) {
+            currentSongIndex = 0;
+        }
+    }
     
-    var currentSongIndex = trackIndex(album, song);
-    currentSongIndex--;
-    
-    if (currentSongIndex < 0) {
-        currentSongIndex = album.songs.length - 1;
+    if (number < 0){
+        var currentSongIndex = lastSongIndex - 1;
+
+        if (currentSongIndex < 0) {
+            currentSongIndex = album.songs.length - 1;
+        }
     }
     
     setSong(currentSongIndex + 1);
     updatePlayerBarSong();
     
-    var lastSongNumber = getLastSongNumber(currentSongIndex);
     var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
     var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
     
@@ -159,6 +140,10 @@ var $nextButton = $('.main-controls .next')
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
-    $previousButton.click(previousSong);
-    $nextButton.click(nextSong);
+    $previousButton.click(function(){
+        changeSong(-1);
+    });
+    $nextButton.click(function(){
+        changeSong(1);
+    });
  });
